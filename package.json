@@ -1,0 +1,59 @@
+{
+  "name": "@balena/compose-parser",
+  "version": "0.0.1",
+  "description": "Wraps compose-go to parse balena-compatible docker-compose.yml files",
+  "scripts": {
+    "clean": "rimraf dist",
+    "lint": "balena-lint lib/ test/ && tsc --noEmit",
+    "lint-fix": "balena-lint --fix lib/ test/",
+    "build": "npm run clean && npm run build:test",
+    "build:go": "scripts/build-binary.sh",
+    "build:test": "tsc",
+    "build:release": "npm run clean && tsc --project tsconfig.release.json",
+    "test": "npm run lint && npm run test:unit",
+    "test:unit": "npm run build:test && mocha 'dist/test/**/*unit.spec.js'",
+    "test:integration": "npm run build:test && mocha 'dist/test/**/*.spec.js'",
+    "test:compose": "(docker compose -f docker-compose.test.yml run --build --rm sut || docker compose logs); npm run compose:down",
+    "compose:down": "docker compose -f docker-compose.test.yml down --volumes",
+    "prepack": "npm run build:release"
+  },
+  "files": [
+    "dist/",
+    "lib/go.mod",
+    "lib/go.sum",
+    "lib/main.go"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/balena-io-experimental/balena-compose-go.git"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/balena-io-experimental/balena-compose-go/issues"
+  },
+  "homepage": "https://github.com/balena-io-experimental/balena-compose-go#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
+  "devDependencies": {
+    "@balena/lint": "^9.3.3",
+    "@types/chai": "^5.2.2",
+    "@types/js-yaml": "^4.0.9",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.3.1",
+    "@types/semver": "^7.7.1",
+    "@types/sinon": "^17.0.4",
+    "chai": "^6.0.1",
+    "js-yaml": "^4.1.0",
+    "mocha": "^11.7.2",
+    "rimraf": "^6.0.1",
+    "sinon": "^21.0.0",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "semver": "^7.7.2",
+    "typed-error": "^3.2.2"
+  }
+}
