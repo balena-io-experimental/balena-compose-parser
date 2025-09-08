@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/compose-spec/compose-go/v2/cli"
+	"github.com/compose-spec/compose-go/v2/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -79,7 +81,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	ctx := context.Background()
+	// Create a timeout context - 10 seconds timeout for parsing
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 
 	options, err := cli.NewProjectOptions(
 		composeFiles,
@@ -92,9 +96,30 @@ func main() {
 		os.Exit(1)
 	}
 
-	project, err := options.LoadProject(ctx)
-	if err != nil {
-		outputError("ParseError", fmt.Sprintf("Failed to parse compose file: %v", err))
+	// Channel to receive the result from the goroutine
+	type loadResult struct {
+		project *types.Project
+		err     error
+	}
+	resultChan := make(chan loadResult, 1)
+
+	// Run LoadProject in a goroutine
+	go func() {
+		project, err := options.LoadProject(ctx)
+		resultChan <- loadResult{project: project, err: err}
+	}()
+
+	// Wait for either the result or timeout
+	var project *types.Project
+	select {
+	case result := <-resultChan:
+		if result.err != nil {
+			outputError("ParseError", fmt.Sprintf("Failed to parse compose file: %v", result.err))
+			os.Exit(1)
+		}
+		project = result.project
+	case <-ctx.Done():
+		outputError("TimeoutError", "Compose file parsing timed out after 10 seconds")
 		os.Exit(1)
 	}
 
