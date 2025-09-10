@@ -5,7 +5,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": false,
     "outDir": "./dist",
-    "rootDir": ".",
     "noImplicitAny": false,
     "noUnusedParameters": false,
     "noUnusedLocals": false,

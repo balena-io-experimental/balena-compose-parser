@@ -1,21 +1,3 @@
 services:
-  builder:
-    build:
-      context: .
-      dockerfile: Dockerfile.builder
-    volumes:
-      - ./lib:/app/lib
-      - ./scripts:/app/scripts
-      - ./dist:/app/dist
-
   sut:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      builder:
-        condition: service_completed_successfully
-    volumes:
-      - ./lib:/app/lib
-      - ./test:/app/test
-      - ./dist:/app/dist
+    build: ./

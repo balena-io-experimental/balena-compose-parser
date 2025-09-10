@@ -6,16 +6,15 @@
     "clean": "rimraf dist",
     "lint": "balena-lint lib/ test/ && tsc --noEmit",
     "lint-fix": "balena-lint --fix lib/ test/",
-    "build": "npm run clean && npm run build:test",
-    "build:test": "tsc",
-    "build:release": "npm run clean && tsc --project tsconfig.release.json",
-    "build:go": "CGO_ENABLED=0 go build -C lib -ldflags='-s -w' -o '../dist/bin/balena-compose-go'",
+    "build": "npm run clean && tsc --project tsconfig.release.json",
+    "build:go": "CGO_ENABLED=0 go build -C lib -ldflags='-s -w' -o '../bin/balena-compose-go'",
     "test": "npm run lint && npm run test:unit",
-    "test:unit": "npm run build:test && mocha 'dist/test/**/*unit.spec.js'",
-    "test:integration": "npm run build:test && mocha 'dist/test/**/*.spec.js'",
+    "test:unit": "ts-mocha 'test/**/*unit.spec.ts'",
+    "test:integration": "ts-mocha 'test/**/*.spec.ts'",
     "test:compose": "(docker compose -f docker-compose.test.yml run --build --rm sut || docker compose logs); npm run compose:down",
     "compose:down": "docker compose -f docker-compose.test.yml down --volumes",
-    "prepack": "npm run build:release"
+    "prepack": "npm run build",
+    "install": "node-pre-gyp install --fallback-to-build=false || npm run build:go"
   },
   "files": [
     "dist/",
@@ -35,8 +34,15 @@
   "engines": {
     "node": ">=20"
   },
-  "main": "dist/lib/index.js",
-  "types": "dist/lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "binary": {
+    "module_name": "balena-compose-go",
+    "module_path": "./bin/",
+    "remote_path": "v{version}",
+    "package_name": "balena-compose-go-{platform}-{arch}.tar.gz",
+    "host": "https://github.com/balena-io-experimental/balena-compose-go/releases/download/"
+  },
   "devDependencies": {
     "@balena/lint": "^9.3.3",
     "@types/chai": "^5.2.2",
@@ -50,9 +56,13 @@
     "mocha": "^11.7.2",
     "rimraf": "^6.0.1",
     "sinon": "^21.0.0",
+    "ts-mocha": "^11.1.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@mapbox/node-pre-gyp": "^2.0.0",
     "semver": "^7.7.2",
     "typed-error": "^3.2.2"
   }
