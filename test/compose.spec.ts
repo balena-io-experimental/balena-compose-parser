@@ -237,7 +237,7 @@ describe('compose-go parsing & validation', () => {
 						},
 						hostname: 'balena',
 						init: true,
-						ipc: 'service:one',
+						// ipc: 'service:one', // Not yet supported by Supervisor
 						labels: {
 							'com.example.label': 'value',
 							'com.example.label2': 'value2',
@@ -321,7 +321,7 @@ describe('compose-go parsing & validation', () => {
 						networks: {
 							default: null,
 						},
-						pids_limit: -1,
+						// pids_limit: -1, // Not yet supported by Supervisor
 						shm_size: '1073741824',
 						sysctls: {
 							'net.ipv4.ip_forward': '1',
@@ -504,7 +504,7 @@ describe('compose-go parsing & validation', () => {
 			}
 		});
 
-		it('should inject a service dependency if ipc:service:${serviceName} is defined', async () => {
+		it.skip('should inject a service dependency if ipc:service:${serviceName} is defined', async () => {
 			const composition = await parse('test/fixtures/compose/services/ipc.yml');
 
 			expect(composition).to.deep.equal({
@@ -532,6 +532,21 @@ describe('compose-go parsing & validation', () => {
 					},
 				},
 			});
+		});
+
+		it('should reject service.ipc which references service:${serviceName}', async () => {
+			try {
+				await parse('test/fixtures/compose/services/ipc.yml');
+				expect.fail(
+					'Expected compose parser to reject service.ipc which references service:${serviceName}',
+				);
+			} catch (error) {
+				expect(error).to.be.instanceOf(ServiceError);
+				expect(error.serviceName).to.equal('main');
+				expect(error.message).to.equal(
+					'service.ipc which references service:${serviceName} is not supported',
+				);
+			}
 		});
 
 		it('should read from label_file and combine with labels config in labels -> label_file resolution order', async () => {
@@ -627,7 +642,7 @@ describe('compose-go parsing & validation', () => {
 								interface_name: 'eth0',
 								ipv4_address: '10.0.0.2',
 								ipv6_address: '2001:db8::2',
-								link_local_ips: ['169.254.1.2', '169.254.1.3'],
+								// link_local_ips: ['169.254.1.2', '169.254.1.3'], // Not yet supported by Supervisor
 								mac_address: '02:42:ac:11:00:02',
 								driver_opts: {
 									foo: 'bar',
@@ -657,6 +672,36 @@ describe('compose-go parsing & validation', () => {
 					},
 				},
 			});
+		});
+
+		it('should reject service.network.link_local_ips', async () => {
+			try {
+				await parse(
+					'test/fixtures/compose/services/unsupported/network.link_local_ips.yml',
+				);
+				expect.fail('Expected compose parser to reject network.link_local_ips');
+			} catch (error) {
+				expect(error).to.be.instanceOf(ServiceError);
+				expect(error.serviceName).to.equal('main');
+				expect(error.message).to.equal(
+					'service.network.link_local_ips is not supported',
+				);
+			}
+		});
+
+		it('should reject negative pids_limit', async () => {
+			try {
+				await parse(
+					'test/fixtures/compose/services/unsupported/pids_limit_negative.yml',
+				);
+				expect.fail('Expected compose parser to reject negative pids_limit');
+			} catch (error) {
+				expect(error).to.be.instanceOf(ServiceError);
+				expect(error.serviceName).to.equal('main');
+				expect(error.message).to.equal(
+					'negative service.pids_limit is not supported',
+				);
+			}
 		});
 
 		it('should warn of oom_score_adj values under -900', async () => {
@@ -1510,21 +1555,21 @@ describe('compose-go parsing & validation', () => {
 									subnet: '2001:db8::/64',
 									gateway: '2001:db8::1',
 									ip_range: '2001:db8:1::/64',
-									aux_addresses: {
-										host1: '2001:db8:1::1',
-										host2: '2001:db8:1::2',
-										host3: '2001:db8:1::3',
-									},
+									// aux_addresses: { // Not yet supported by Supervisor
+									// 	host1: '2001:db8:1::1',
+									// 	host2: '2001:db8:1::2',
+									// 	host3: '2001:db8:1::3',
+									// },
 								},
 								{
 									subnet: '2021:db8::/64',
 									gateway: '2021:db8::1',
 									ip_range: '2021:db8:1::/64',
-									aux_addresses: {
-										host1: '2021:db8:1::1',
-										host2: '2021:db8:1::2',
-										host3: '2021:db8:1::3',
-									},
+									// aux_addresses: { // Not yet supported by Supervisor
+									// 	host1: '2021:db8:1::1',
+									// 	host2: '2021:db8:1::2',
+									// 	host3: '2021:db8:1::3',
+									// },
 								},
 							],
 						},
@@ -1532,8 +1577,8 @@ describe('compose-go parsing & validation', () => {
 						labels: {
 							'io.balena.label': 'test',
 						},
-						enable_ipv4: false,
-						enable_ipv6: true,
+						// enable_ipv4: false,
+						// enable_ipv6: true, // Not yet supported by Engine
 					},
 					my_network_2: {
 						driver: 'bridge',
@@ -1544,18 +1589,18 @@ describe('compose-go parsing & validation', () => {
 									subnet: '10.0.0.0/16',
 									gateway: '10.0.0.1',
 									ip_range: '10.0.1.0/24',
-									aux_addresses: {
-										host1: '10.0.1.1',
-										host2: '10.0.1.2',
-										host3: '10.0.1.3',
-									},
+									// aux_addresses: { // Not yet supported by Supervisor
+									// 	host1: '10.0.1.1',
+									// 	host2: '10.0.1.2',
+									// 	host3: '10.0.1.3',
+									// },
 								},
 							],
 						},
 						labels: {
 							'io.balena.label': 'test2',
 						},
-						enable_ipv6: false,
+						// enable_ipv6: false, // Not yet supported by Engine
 					},
 				},
 			});
@@ -1634,6 +1679,22 @@ describe('compose-go parsing & validation', () => {
 					},
 				},
 			});
+		});
+
+		it('should reject network.ipam.config.aux_addresses', async () => {
+			try {
+				await parse(
+					'test/fixtures/compose/networks/unsupported/aux_addresses.yml',
+				);
+				expect.fail(
+					'Expected compose parser to reject network.ipam.config.aux_addresses',
+				);
+			} catch (error) {
+				expect(error).to.be.instanceOf(ComposeError);
+				expect(error.message).to.equal(
+					'network.ipam.config.aux_addresses is not supported',
+				);
+			}
 		});
 	});
 

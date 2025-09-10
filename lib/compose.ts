@@ -301,6 +301,34 @@ function normalizeService(
 		);
 	}
 
+	// Reject service.ipc which references service:${serviceName} as Supervisor doesn't support this yet
+	if (service.ipc && service.ipc !== 'shareable') {
+		throw new ServiceError(
+			'service.ipc which references service:${serviceName} is not supported',
+			serviceName,
+		);
+	}
+
+	// Reject service.network.link_local_ips as Supervisor doesn't support this yet
+	if (service.networks) {
+		for (const [, network] of Object.entries(service.networks)) {
+			if (network?.link_local_ips) {
+				throw new ServiceError(
+					'service.network.link_local_ips is not supported',
+					serviceName,
+				);
+			}
+		}
+	}
+
+	// Reject negative pids_limit as Supervisor doesn't support this yet
+	if (service.pids_limit && service.pids_limit < 0) {
+		throw new ServiceError(
+			'negative service.pids_limit is not supported',
+			serviceName,
+		);
+	}
+
 	// Remove null entrypoint
 	/// compose-go adds `entrypoint: null` if entrypoint is unspecified.
 	/// In docker-compose, this means that the default entrypoint from the image is used, but in
@@ -672,6 +700,18 @@ function normalizeNetwork(rawNetwork: Dict<any>): Network {
 	// Reject if `io.balena.private` namespace is used for labels
 	if (network.labels) {
 		validateLabels(network.labels);
+	}
+
+	// Reject network.ipam.config.aux_addresses as Supervisor doesn't support this yet
+	if (network.ipam?.config?.some((config) => config.aux_addresses)) {
+		throw new ValidationError(
+			'network.ipam.config.aux_addresses is not supported',
+		);
+	}
+
+	// Reject enable_ipv6 as Engine doesn't support this yet
+	if (network.enable_ipv6) {
+		throw new ValidationError('enable_ipv6 is not supported');
 	}
 
 	// Warn if com.docker.network.bridge.name driver_opts is present as it may interfere with device firewall
