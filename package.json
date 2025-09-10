@@ -7,7 +7,7 @@
     "lint": "balena-lint lib/ test/ && tsc --noEmit",
     "lint-fix": "balena-lint --fix lib/ test/",
     "build": "npm run clean && tsc --project tsconfig.release.json",
-    "build:go": "CGO_ENABLED=0 go build -C lib -ldflags='-s -w' -o '../bin/balena-compose-go'",
+    "build:go": "CGO_ENABLED=0 go build -C lib -ldflags='-s -w' -o \"../bin/balena-compose-go$(go env GOEXE)\"",
     "test": "npm run lint && npm run test:unit",
     "test:unit": "ts-mocha 'test/**/*unit.spec.ts'",
     "test:integration": "ts-mocha 'test/**/*.spec.ts'",

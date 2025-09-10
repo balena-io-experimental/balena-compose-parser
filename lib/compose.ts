@@ -50,7 +50,11 @@ export async function parse(
 	// Build the command with -f flags for each file
 	const fileFlags = filePaths.map((filePath) => `-f ${filePath}`).join(' ');
 
-	const binaryPath = path.join(__dirname, '..', 'bin', 'balena-compose-go');
+	const binaryName =
+		process.platform === 'win32'
+			? 'balena-compose-go.exe'
+			: 'balena-compose-go';
+	const binaryPath = path.join(__dirname, '..', 'bin', binaryName);
 	const result = await exec(`${binaryPath} ${fileFlags} ${projectName}`, {
 		env: process.env,
 	}).catch((e) => {
