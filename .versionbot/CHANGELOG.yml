@@ -1,0 +1,13 @@
+- commits:
+    - subject: Implement compose file parsing with wrapped compose-go binary
+      hash: 7eee15452061be0b7236eb0d830966a09cdaf94c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.2
+  title: ""
+  date: 2025-09-12T18:31:20.860Z

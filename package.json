@@ -1,6 +1,6 @@
 {
   "name": "@balena/compose-parser",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Wraps compose-go to parse balena-compatible docker-compose.yml files",
   "scripts": {
     "clean": "rimraf dist",
@@ -65,5 +65,8 @@
     "@mapbox/node-pre-gyp": "^2.0.0",
     "semver": "^7.7.2",
     "typed-error": "^3.2.2"
+  },
+  "versionist": {
+    "publishedAt": "2025-09-12T18:31:20.894Z"
   }
 }
