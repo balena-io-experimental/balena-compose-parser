@@ -1,0 +1,10 @@
+services:
+  main:
+    image: alpine:latest
+    command: sh -c "sleep infinity"
+    ports:
+      - target: 80
+        published: 80
+        name: port1
+        app_protocol: http
+        mode: host

@@ -1,0 +1,45 @@
+name: Flowzone
+
+on:
+  pull_request:
+    types: [opened, synchronize, closed]
+    branches:
+      - 'main'
+      - 'master'
+  pull_request_target:
+    types: [opened, synchronize, closed]
+    branches:
+      - 'main'
+      - 'master'
+
+jobs:
+  flowzone:
+    name: Flowzone
+    uses: product-os/flowzone/.github/workflows/flowzone.yml@master
+    # prevent duplicate workflow executions for pull_request and pull_request_target
+    if: |
+      (
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        github.event_name == 'pull_request'
+      ) || (
+        github.event.pull_request.head.repo.full_name != github.repository &&
+        github.event_name == 'pull_request_target'
+      )
+    secrets: inherit
+    with:
+      # Finalize release on merge
+      github_prerelease: false
+      # OS & arch combinations to publish built Go binaries for
+      custom_publish_matrix: >
+        {
+          "value": [
+             "linux-amd64",
+             "linux-arm64",
+             "darwin-amd64",
+             "darwin-arm64",
+             "windows-amd64"
+           ],
+          "os": [
+            ["self-hosted", "X64"]
+          ]
+        }

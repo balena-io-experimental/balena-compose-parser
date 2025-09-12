@@ -1,0 +1,15 @@
+services:
+  main:
+    image: alpine:latest
+    command: sh -c "sleep infinity"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    ipam:
+      config:
+        - aux_addresses:
+            host1: 10.0.0.1
+            host2: 10.0.0.2
+            host3: 10.0.0.3
