@@ -77,11 +77,6 @@ const composition = await parse([
   'docker-compose.override.yml'
 ]);
 
-// Generate a default balena composition
-const defaultYaml = defaultComposition();
-const defaultWithImage = defaultComposition('myimage:latest');
-const defaultWithDockerfile = defaultComposition(undefined, 'Dockerfile.custom');
-
 // Convert composition to image descriptors for building/pulling
 const imageDescriptors = toImageDescriptors(composition);
 ```
