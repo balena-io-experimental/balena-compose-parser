@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove default composition from docs
+      hash: d8c1906cce76a39f7a13aca175588bc8148ed394
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.3
+  title: ""
+  date: 2025-09-15T22:10:32.656Z
+- commits:
     - subject: Implement compose file parsing with wrapped compose-go binary
       hash: 7eee15452061be0b7236eb0d830966a09cdaf94c
       body: ""
