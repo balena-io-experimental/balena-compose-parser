@@ -1,4 +1,21 @@
 - commits:
+    - subject: Release binaries with .node extension
+      hash: 9d0581b9ac30ce105c74e04902ec4e66cae2fb74
+      body: |
+        node-pre-gyp expects .node binaries when downloading and won't
+        extract non-.node extension binaries properly. This commit releases
+        binaries as .node, and on postinstall, removes the .node extension
+        from the downloaded binary.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.5
+  title: ""
+  date: 2025-09-16T22:08:16.228Z
+- commits:
     - subject: Pin Flowzone workflow to a5e50b8 (v22.0.6)
       hash: 24b77c164a3343efa54c766e3df85e280933d450
       body: ""
