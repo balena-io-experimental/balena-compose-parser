@@ -14,13 +14,15 @@
     "test:compose": "(docker compose -f docker-compose.test.yml run --build --rm sut || docker compose logs); npm run compose:down",
     "compose:down": "docker compose -f docker-compose.test.yml down --volumes",
     "prepack": "npm run build",
-    "install": "node-pre-gyp install --fallback-to-build=false || npm run build:go"
+    "install": "node-pre-gyp install --fallback-to-build=false || npm run build:go",
+    "postinstall": "node scripts/rename-binary.js"
   },
   "files": [
     "dist/",
     "lib/go.mod",
     "lib/go.sum",
-    "lib/main.go"
+    "lib/main.go",
+    "scripts/rename-binary.js"
   ],
   "repository": {
     "type": "git",
