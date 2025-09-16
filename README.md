@@ -1,4 +1,4 @@
-# balena-compose-go
+# balena-compose-parser
 
 A TypeScript wrapper around [compose-go](https://github.com/compose-spec/compose-go) that parses and validates Docker Compose files for balena applications.
 
@@ -15,6 +15,11 @@ This project provides a Node.js library that uses a Go binary (built from compos
 
 - Node.js 20+
 - Go 1.25+ (for local builds)
+
+## Installation
+```
+npm i @balena/compose-parser
+```
 
 ## Architecture
 
@@ -66,7 +71,7 @@ npm run lint-fix
 ### Basic Usage
 
 ```typescript
-import { parse, defaultComposition, toImageDescriptors } from 'balena-compose-go';
+import { parse, defaultComposition, toImageDescriptors } from '@balena/compose-parser';
 
 // Parse a compose file
 const composition = await parse('docker-compose.yml');
