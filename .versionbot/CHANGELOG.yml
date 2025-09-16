@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update Go binary usage message to use snakecase
+      hash: 11aff93ea10bf27c5152df723b6b4c373fb0d9cf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.7
+  title: ""
+  date: 2025-09-16T23:08:27.912Z
+- commits:
     - subject: Rename binary to snakecase and add .exe for windows in postinstall
       hash: 764fdcf67831120284d2b0ecd3951ac906fd846f
       body: |
