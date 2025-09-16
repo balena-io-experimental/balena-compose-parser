@@ -35,9 +35,9 @@ runs:
         export GOARCH=$(echo $platform | cut -d'-' -f2)
         
         if [ "$GOOS" = "windows" ]; then
-          BINARY_NAME="balena-compose-go.exe"
+          BINARY_NAME="balena-compose-go.exe.node"
         else
-          BINARY_NAME="balena-compose-go"
+          BINARY_NAME="balena-compose-go.node"
         fi
         
         CGO_ENABLED=0 go build -ldflags="-s -w" -o ../bin/$BINARY_NAME .
