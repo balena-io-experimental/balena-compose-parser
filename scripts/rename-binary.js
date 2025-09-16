@@ -9,15 +9,15 @@ if (!fs.existsSync(binDir)) {
 	process.exit(0);
 }
 
-// Find file matching balena_compose_go.node
-const files = fs.readdirSync(binDir).filter(f => f.match(/^balena_compose_go\.node$/));
+// Find file matching balena_compose_parser.node
+const files = fs.readdirSync(binDir).filter(f => f.match(/^balena_compose_parser\.node$/));
 
 if (files.length === 0) {
 	process.exit(0);
 }
 
 const sourceFile = path.join(binDir, files[0]);
-const targetFile = path.join(binDir, `balena_compose_go${process.platform === 'win32' ? '.exe' : ''}`);
+const targetFile = path.join(binDir, `balena_compose_parser${process.platform === 'win32' ? '.exe' : ''}`);
 
 // Rename the file
 try {
