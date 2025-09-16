@@ -7,7 +7,7 @@
     "lint": "balena-lint lib/ test/ && tsc --noEmit",
     "lint-fix": "balena-lint --fix lib/ test/",
     "build": "npm run clean && tsc --project tsconfig.release.json",
-    "build:go": "CGO_ENABLED=0 go build -C lib -ldflags='-s -w' -o \"../bin/balena-compose-go$(go env GOEXE)\"",
+    "build:go": "CGO_ENABLED=0 go build -C lib -ldflags='-s -w' -o \"../bin/balena_compose_go$(go env GOEXE)\"",
     "test": "npm run lint && npm run test:unit",
     "test:unit": "ts-mocha 'test/**/*unit.spec.ts'",
     "test:integration": "ts-mocha 'test/**/*.spec.ts'",
@@ -39,8 +39,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "binary": {
-    "module_name": "balena-compose-go",
-    "module_path": "./bin/",
+    "module_name": "balena_compose_go",
+    "module_path": "bin/",
     "remote_path": "v{version}",
     "package_name": "balena-compose-go-{platform}-{arch}.tar.gz",
     "host": "https://github.com/balena-io-experimental/balena-compose-go/releases/download/"
