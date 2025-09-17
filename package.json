@@ -7,22 +7,21 @@
     "lint": "balena-lint lib/ test/ && tsc --noEmit",
     "lint-fix": "balena-lint --fix lib/ test/",
     "build": "npm run clean && tsc --project tsconfig.release.json",
-    "build:go": "CGO_ENABLED=0 go build -C lib -ldflags='-s -w' -o \"../bin/balena_compose_parser$(go env GOEXE)\"",
+    "build:go": "echo 'Building Go binary from source...' && CGO_ENABLED=0 go build -C lib -ldflags='-s -w' -o \"../bin/balena-compose-parser$(go env GOEXE)\"",
     "test": "npm run lint && npm run test:unit",
     "test:unit": "ts-mocha 'test/**/*unit.spec.ts'",
     "test:integration": "ts-mocha 'test/**/*.spec.ts'",
     "test:compose": "(docker compose -f docker-compose.test.yml run --build --rm sut || docker compose logs); npm run compose:down",
     "compose:down": "docker compose -f docker-compose.test.yml down --volumes",
     "prepack": "npm run build",
-    "install": "node-pre-gyp install --fallback-to-build=false || npm run build:go",
-    "postinstall": "node scripts/rename-binary.js"
+    "postinstall": "node scripts/fetch-binary.js || npm run build:go"
   },
   "files": [
     "dist/",
     "lib/go.mod",
     "lib/go.sum",
     "lib/main.go",
-    "scripts/rename-binary.js"
+    "scripts/fetch-binary.js"
   ],
   "repository": {
     "type": "git",
@@ -39,32 +38,29 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "binary": {
-    "module_name": "balena_compose_parser",
-    "module_path": "bin/",
-    "remote_path": "v{version}",
-    "package_name": "balena-compose-go-{platform}-{arch}.tar.gz",
-    "host": "https://github.com/balena-io-experimental/balena-compose-parser/releases/download/"
+    "moduleName": "balena-compose-parser",
+    "modulePath": "bin/",
+    "packageName": "balena-compose-parser-{platform}-{arch}.tar.gz",
+    "remotePath": "https://github.com/balena-io-experimental/balena-compose-parser/releases/download/v{version}/"
   },
   "devDependencies": {
     "@balena/lint": "^9.3.3",
     "@types/chai": "^5.2.2",
-    "@types/js-yaml": "^4.0.9",
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.3.1",
     "@types/semver": "^7.7.1",
     "@types/sinon": "^17.0.4",
     "chai": "^6.0.1",
-    "js-yaml": "^4.1.0",
     "mocha": "^11.7.2",
     "rimraf": "^6.0.1",
     "sinon": "^21.0.0",
+    "tar": "^7.4.3",
     "ts-mocha": "^11.1.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@mapbox/node-pre-gyp": "^2.0.0",
     "semver": "^7.7.2",
     "typed-error": "^3.2.2"
   },

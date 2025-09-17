@@ -52,8 +52,8 @@ export async function parse(
 
 	const binaryName =
 		process.platform === 'win32'
-			? 'balena_compose_parser.exe'
-			: 'balena_compose_parser';
+			? 'balena-compose-parser.exe'
+			: 'balena-compose-parser';
 	const binaryPath = path.join(__dirname, '..', 'bin', binaryName);
 	const result = await exec(`${binaryPath} ${fileFlags} ${projectName}`, {
 		env: process.env,

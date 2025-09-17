@@ -21,7 +21,7 @@ type ErrorResponse struct {
 
 // Usage message
 const usage = `
-Usage: balena_compose_parser -f <compose-file> [-f <compose-file>...] <project-name>
+Usage: balena-compose-parser -f <compose-file> [-f <compose-file>...] <project-name>
 
 Parses one or more docker-compose files and outputs a structured response.
 
@@ -31,7 +31,7 @@ Arguments:
                      the project name need to be removed for normalization into a compose acceptable by balena.
 
 Example:
-  balena_compose_parser -f docker-compose.yml -f docker-compose.override.yml my-project-name
+  balena-compose-parser -f docker-compose.yml -f docker-compose.override.yml my-project-name
 `
 
 func main() {
