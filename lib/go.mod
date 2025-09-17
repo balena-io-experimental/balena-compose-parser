@@ -1,4 +1,4 @@
-module balena-compose-go
+module balena-compose-parser
 
 go 1.24.4
 

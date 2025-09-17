@@ -33,7 +33,12 @@ runs:
         
         export GOOS=$(echo $platform | cut -d'-' -f1)
         export GOARCH=$(echo $platform | cut -d'-' -f2)
-        export BINARY_NAME="balena_compose_parser.node"
+        
+        if [ "$GOOS" = "windows" ]; then
+          export BINARY_NAME="balena-compose-parser.exe"
+        else
+          export BINARY_NAME="balena-compose-parser"
+        fi
         
         CGO_ENABLED=0 go build -ldflags="-s -w" -o ../bin/$BINARY_NAME .
 
@@ -41,14 +46,14 @@ runs:
         
         # Create tar.gz archive with platform-specific name
         cd ../bin
-        tar -czf balena-compose-go-$platform.tar.gz $BINARY_NAME
+        tar -czf balena-compose-parser-$platform.tar.gz $BINARY_NAME
         
         echo "Archive created:"
-        ls -la balena-compose-go-$platform.tar.gz
+        ls -la balena-compose-parser-$platform.tar.gz
 
     - name: Upload binary as artifact
       uses: actions/upload-artifact@v4.6.2
       with:
         name: gh-release-${{ env.matrix_value }}
-        path: bin/balena-compose-go-${{ env.matrix_value }}.tar.gz
+        path: bin/balena-compose-parser-${{ env.matrix_value }}.tar.gz
         retention-days: 7
