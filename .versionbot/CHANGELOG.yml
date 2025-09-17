@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add debug logging for node-pre-gyp
+      hash: 9a014246f6515d63c3015b6991134cd27776aca9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.9
+  title: ""
+  date: 2025-09-17T01:45:56.278Z
+- commits:
     - subject: Rename binary to balena_compose_parser
       hash: 2b7e30a8a02c6d95d01e2f0038911a6f303ac6f1
       body: ""
