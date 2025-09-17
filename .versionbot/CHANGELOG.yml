@@ -1,4 +1,21 @@
 - commits:
+    - subject: Use fetch script to install GH release asset
+      hash: 70e0c14de52c9fdd2a7c72a712d8b1094b5f97ca
+      body: |
+        node-pre-gyp only works for native Node modules, but our Go binary
+        doesn't have the same interface so doesn't work with it. Added a script
+        to fetch the prebuilt modules from GH which are released by Flowzone,
+        and install them at bin/ in the project directory.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.10
+  title: ""
+  date: 2025-09-17T19:29:36.430Z
+- commits:
     - subject: Add debug logging for node-pre-gyp
       hash: 9a014246f6515d63c3015b6991134cd27776aca9
       body: ""
