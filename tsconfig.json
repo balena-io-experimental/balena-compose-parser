@@ -3,6 +3,7 @@
     "module": "commonjs",
     "target": "es2021",
     "skipLibCheck": true,
+    "allowJs": true,
     "forceConsistentCasingInFileNames": false,
     "outDir": "./dist",
     "noImplicitAny": false,
@@ -16,7 +17,8 @@
   },
   "include": [
     "lib/**/*.ts",
-    "test/**/*.ts"
+    "test/**/*.ts",
+    "scripts/**/*.js"
   ],
   "exclude": [
     "node_modules"
