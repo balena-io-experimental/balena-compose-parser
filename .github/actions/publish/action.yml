@@ -33,7 +33,7 @@ runs:
         
         export GOOS=$(echo $platform | cut -d'-' -f1)
         export GOARCH=$(echo $platform | cut -d'-' -f2)
-        export BINARY_NAME="balena_compose_go.node"
+        export BINARY_NAME="balena_compose_parser.node"
         
         CGO_ENABLED=0 go build -ldflags="-s -w" -o ../bin/$BINARY_NAME .
 
