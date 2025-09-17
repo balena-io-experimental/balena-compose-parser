@@ -1,4 +1,17 @@
 - commits:
+    - subject: Rename binary to balena_compose_parser
+      hash: 2b7e30a8a02c6d95d01e2f0038911a6f303ac6f1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.8
+  title: ""
+  date: 2025-09-17T00:02:28.018Z
+- commits:
     - subject: Update Go binary usage message to use snakecase
       hash: 11aff93ea10bf27c5152df723b6b4c373fb0d9cf
       body: ""
