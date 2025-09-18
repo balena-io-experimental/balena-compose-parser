@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix async .exists in binary fetch script
+      hash: ca92b753c45ad2c8ea5cd14517263e4027138fd5
+      body: |
+        Also build from source in Docker tests, as fetching
+        the pre-built binaries in GH actions doesn't seem to work.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.11
+  title: ""
+  date: 2025-09-18T20:07:49.275Z
+- commits:
     - subject: Use fetch script to install GH release asset
       hash: 70e0c14de52c9fdd2a7c72a712d8b1094b5f97ca
       body: |
