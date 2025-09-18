@@ -1,3 +1,6 @@
 services:
   sut:
-    build: ./
+    build:
+      context: ./
+      args:
+        BUILD_FROM_SOURCE: 'true'

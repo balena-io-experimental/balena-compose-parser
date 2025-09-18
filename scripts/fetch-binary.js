@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-
+/* eslint-disable @typescript-eslint/no-require-imports */
 const https = require('https');
 const { promises: fs } = require('fs');
 const path = require('path');
@@ -8,14 +7,16 @@ const { promisify } = require('util');
 const zlib = require('zlib');
 const tar = require('tar');
 const packageJson = require('../package.json');
+/* eslint-enable @typescript-eslint/no-require-imports */
 
 const streamPipeline = promisify(pipeline);
 
-
-(async () => {
-	console.log('Fetching prebuilt Go binary...');
-	await fetchBinary();
-})();
+async function exists(p) {
+	return await fs
+		.access(p, fs.constants.F_OK)
+		.then(() => true)
+		.catch(() => false);
+}
 
 function getPlatform() {
 	const platform = process.platform;
@@ -57,29 +58,35 @@ function getBinaryUrl() {
 		.replace('{platform}', platform)
 		.replace('{arch}', arch);
 
-	const url = config.remotePath
-		.replace('{version}', version) + packageName;
+	const url = config.remotePath.replace('{version}', version) + packageName;
 
 	return url;
 }
 
-function downloadFile(url) {
+function downloadFile(url, logHost = true) {
 	return new Promise((resolve, reject) => {
-		console.log(`Downloading binary from: ${url}`);
+		// Truncate url to host only
+		if (logHost) {
+			console.log(`Downloading binary from: ${url.split('?')[0]}`);
+		}
 
-		https.get(url, (response) => {
-			if (response.statusCode === 302 || response.statusCode === 301) {
-				// Follow redirect
-				return downloadFile(response.headers.location).then(resolve).catch(reject);
-			}
+		https
+			.get(url, (response) => {
+				if (response.statusCode === 302 || response.statusCode === 301) {
+					// Follow redirect
+					return downloadFile(response.headers.location, false)
+						.then(resolve)
+						.catch(reject);
+				}
 
-			if (response.statusCode !== 200) {
-				reject(new Error(`Failed to download: HTTP ${response.statusCode}`));
-				return;
-			}
+				if (response.statusCode !== 200) {
+					reject(new Error(`Failed to download: HTTP ${response.statusCode}`));
+					return;
+				}
 
-			resolve(response);
-		}).on('error', reject);
+				resolve(response);
+			})
+			.on('error', reject);
 	});
 }
 
@@ -89,8 +96,8 @@ async function extractTarGz(stream, targetDir) {
 		zlib.createGunzip(),
 		tar.extract({
 			cwd: targetDir,
-			strip: 0
-		})
+			strip: 0,
+		}),
 	);
 }
 
@@ -101,14 +108,8 @@ async function fetchBinary() {
 		const binaryName = `${config.moduleName}${process.platform === 'win32' ? '.exe' : ''}`;
 		const binaryPath = path.join(binDir, binaryName);
 
-		// Check if binary already exists
-		if (await fs.exists(binaryPath)) {
-			console.log(`Binary already exists at ${binaryPath}`);
-			return;
-		}
-
 		// Create bin directory if it doesn't exist
-		if (!(await fs.exists(binDir))) {
+		if (!(await exists(binDir))) {
 			await fs.mkdir(binDir, { recursive: true });
 		}
 
@@ -126,9 +127,21 @@ async function fetchBinary() {
 		}
 
 		console.log(`Binary successfully installed at ${binaryPath}`);
-		process.exit(0);
 	} catch (error) {
 		console.error(`Failed to fetch binary: ${error.message}`);
-		process.exit(1);
 	}
 }
+
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+(async () => {
+	if (process.env.BUILD_FROM_SOURCE === 'true') {
+		console.log('Building Go binary from source');
+		process.exit(1);
+	}
+	try {
+		await fetchBinary();
+		process.exit(0);
+	} catch {
+		process.exit(1);
+	}
+})();
