@@ -25,13 +25,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/balena-io-experimental/balena-compose-parser.git"
+    "url": "git+https://github.com/balena-io-modules/balena-compose-parser.git"
   },
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/balena-io-experimental/balena-compose-parser/issues"
+    "url": "https://github.com/balena-io-modules/balena-compose-parser/issues"
   },
-  "homepage": "https://github.com/balena-io-experimental/balena-compose-parser#readme",
+  "homepage": "https://github.com/balena-io-modules/balena-compose-parser#readme",
   "engines": {
     "node": ">=20"
   },
@@ -41,7 +41,7 @@
     "moduleName": "balena-compose-parser",
     "modulePath": "bin/",
     "packageName": "balena-compose-parser-{platform}-{arch}.tar.gz",
-    "remotePath": "https://github.com/balena-io-experimental/balena-compose-parser/releases/download/v{version}/"
+    "remotePath": "https://github.com/balena-io-modules/balena-compose-parser/releases/download/v{version}/"
   },
   "devDependencies": {
     "@balena/lint": "^9.3.3",
