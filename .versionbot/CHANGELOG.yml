@@ -1,4 +1,20 @@
 - commits:
+    - subject: Bump compose-go to 2.9.0
+      hash: 5e0cac0b56cbc30b9e74af01fda7b2509d06a54d
+      body: |
+        Patches vulnerability in mapstructure<2.4.0
+      footer:
+        See: https://github.com/balena-io-modules/balena-compose-parser/security/dependabot/1
+        see: https://github.com/balena-io-modules/balena-compose-parser/security/dependabot/1
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.13
+  title: ""
+  date: 2025-09-22T18:22:10.267Z
+- commits:
     - subject: Change org references to balena-io-modules following transfer
       hash: 3e5440796eb6d75d70b61a3cf820f7fa53615d07
       body: ""
