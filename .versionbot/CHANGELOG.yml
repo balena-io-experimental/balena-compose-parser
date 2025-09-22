@@ -1,4 +1,17 @@
 - commits:
+    - subject: Change org references to balena-io-modules following transfer
+      hash: 3e5440796eb6d75d70b61a3cf820f7fa53615d07
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.12
+  title: ""
+  date: 2025-09-22T18:10:42.852Z
+- commits:
     - subject: Fix async .exists in binary fetch script
       hash: ca92b753c45ad2c8ea5cd14517263e4027138fd5
       body: |
