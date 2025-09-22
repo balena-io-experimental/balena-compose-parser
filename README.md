@@ -14,7 +14,7 @@ This project provides a Node.js library that uses a Go binary (built from compos
 ## Requirements
 
 - Node.js 20+
-- Go 1.25+ (for local builds)
+- Go 1.24+ (for local builds)
 
 ## Installation
 ```
