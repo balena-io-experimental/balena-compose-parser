@@ -1,4 +1,27 @@
 - commits:
+    - subject: Throw error with correct serviceName on long syntax depends_on error
+      hash: 3408cb26a65482dd7694376c09de9f461fdad8e9
+      body: >
+        Given a service `main` that expresses long syntax depends_on on service
+
+        `other`, if the long syntax depends_on config is not supported, this
+        commit
+
+        corrects the thrown ServiceError to reference `main` instead of `other`,
+        as
+
+        `main` is the service config with the unsupported depends_on config, not
+        `other`.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Christina Ying Wang <christina@balena.io>
+        signed-off-by: Christina Ying Wang <christina@balena.io>
+      author: Christina Ying Wang
+  version: 0.0.14
+  title: ""
+  date: 2025-09-23T00:41:04.561Z
+- commits:
     - subject: Bump compose-go to 2.9.0
       hash: 5e0cac0b56cbc30b9e74af01fda7b2509d06a54d
       body: |
