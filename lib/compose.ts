@@ -353,7 +353,10 @@ function normalizeService(
 	/// compose-go converts all depends_on definitions to long syntax, however legacy Supervisors don't support this.
 	/// TODO: Support this in Helios
 	if (service.depends_on) {
-		service.depends_on = longToShortSyntaxDependsOn(service.depends_on);
+		service.depends_on = longToShortSyntaxDependsOn(
+			service.depends_on,
+			serviceName,
+		);
 	}
 
 	// Convert long syntax devices to short syntax
@@ -557,10 +560,13 @@ function longToShortSyntaxPorts(
 
 function longToShortSyntaxDependsOn(
 	dependsOn: NonNullable<Service['depends_on']>,
+	serviceName: string,
 ): string[] {
 	const shortSyntaxDependsOn: string[] = [];
 
-	for (const [serviceName, dependsOnConfig] of Object.entries(dependsOn)) {
+	for (const [dependentServiceName, dependsOnConfig] of Object.entries(
+		dependsOn,
+	)) {
 		// Some dependsOnConfigs are not convertible to short syntax, and may define a different depends_on behavior
 		// than the short syntax default. We don't support long syntax depends_on in legacy Supervisors, so warn for now
 		// and convert to short syntax although the dependency behavior is slightly different.
@@ -570,7 +576,7 @@ function longToShortSyntaxDependsOn(
 			dependsOnConfig.required !== true
 		) {
 			throw new ServiceError(
-				`Long syntax depends_on ${JSON.stringify(dependsOnConfig)} ` +
+				`Long syntax depends_on ${dependentServiceName}:${JSON.stringify(dependsOnConfig)} ` +
 					`for service "${serviceName}" is not yet supported`,
 				serviceName,
 			);
@@ -580,7 +586,7 @@ function longToShortSyntaxDependsOn(
 		// TODO: Compose warns if service isn't started or available if required=false.
 		//       Supervisor will need to warn once it supports long syntax depends_on.
 		if (dependsOnConfig.required !== false) {
-			shortSyntaxDependsOn.push(serviceName);
+			shortSyntaxDependsOn.push(dependentServiceName);
 		}
 	}
 

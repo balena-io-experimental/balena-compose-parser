@@ -386,9 +386,9 @@ describe('compose-go parsing & validation', () => {
 			} catch (error) {
 				expect(error).to.be.instanceOf(ServiceError);
 				expect(error.message).to.equal(
-					'Long syntax depends_on {"condition":"service_healthy","restart":true,"required":true} for service "db" is not yet supported',
+					'Long syntax depends_on db:{"condition":"service_healthy","restart":true,"required":true} for service "web" is not yet supported',
 				);
-				expect(error.serviceName).to.equal('db');
+				expect(error.serviceName).to.equal('web');
 			}
 		});
 
